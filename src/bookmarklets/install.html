@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Monarch DOM Analyzer — Install</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; background: #f5f5f5; }
+    h1 { font-size: 20px; }
+    .bar { background: #222; border-radius: 6px; padding: 10px 16px; margin: 20px 0; font-size: 13px; color: #aaa; }
+    .link-wrap { margin: 24px 0; text-align: center; }
+    a.bookmarklet {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #0070f3;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: grab;
+    }
+    a.bookmarklet:hover { background: #005ac1; }
+    ol { line-height: 2; }
+    .note { background: #fff3cd; border: 1px solid #ffc107; padding: 10px 14px; border-radius: 4px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>Monarch DOM Analyzer — Bookmarklet Installer</h1>
+
+  <div class="bar">bookmarks bar ↓</div>
+
+  <div class="link-wrap">
+    <a class="bookmarklet" href="javascript:(function%20()%20%7B%20var%20url%20%3D%20location.href%3B%20var%20w%20%3D%20window.open(''%2C%20'MonarchDOMAnalyzer'%2C%20'width%3D1000%2Cheight%3D750%2Cscrollbars%3Dyes%2Cresizable%3Dyes')%3B%20var%20d%20%3D%20w.document%3B%20function%20esc(s)%20%7B%20return%20String(s)%20.replace(%2F%26%2Fg%2C%20'%26amp%3B')%20.replace(%2F%3C%2Fg%2C%20'%26lt%3B')%20.replace(%2F%3E%2Fg%2C%20'%26gt%3B')%3B%20%7D%20function%20section(title%2C%20content)%20%7B%20return%20'%3Cdiv%20class%3D%22sec%22%3E%3Ch2%3E'%20%2B%20esc(title)%20%2B%20'%3C%2Fh2%3E%3Cpre%3E'%20%2B%20content%20%2B%20'%3C%2Fpre%3E%3C%2Fdiv%3E'%3B%20%7D%20var%20headingsOut%20%3D%20''%3B%20document.querySelectorAll('h1%2Ch2%2Ch3%2Ch4%2Ch5%2Ch6%2C%5Brole%3D%22heading%22%5D').forEach(function%20(h)%20%7B%20var%20txt%20%3D%20h.textContent.trim()%3B%20if%20(txt)%20headingsOut%20%2B%3D%20esc(h.tagName)%20%2B%20'%20%7C%20class%3D%22'%20%2B%20esc(h.className)%20%2B%20'%22%20%7C%20'%20%2B%20esc(txt.substring(0%2C%20120))%20%2B%20'%5Cn'%3B%20%7D)%3B%20var%20investOut%20%3D%20''%3B%20Array.from(document.querySelectorAll('*')).forEach(function%20(el)%20%7B%20if%20(el.children.length%20%3D%3D%3D%200)%20%7B%20var%20txt%20%3D%20el.textContent.trim()%3B%20if%20(txt.toLowerCase().includes('invest'))%20%7B%20investOut%20%2B%3D%20esc(el.tagName)%20%2B%20'%20class%3D%22'%20%2B%20esc(el.className)%20%2B%20'%22%5Cn%20text%3A%20'%20%2B%20esc(txt.substring(0%2C%20100))%20%2B%20'%5Cn%5Cn'%3B%20%7D%20%7D%20%7D)%3B%20var%20linksOut%20%3D%20''%3B%20document.querySelectorAll('a%5Bhref*%3D%22account%22%5D').forEach(function%20(a)%20%7B%20linksOut%20%2B%3D%20esc(a.href)%20%2B%20'%5Cn%20text%3A%20'%20%2B%20esc(a.textContent.trim().substring(0%2C%2080))%20%2B%20'%5Cn%5Cn'%3B%20%7D)%3B%20var%20holdingsOut%20%3D%20''%3B%20Array.from(document.querySelectorAll('*')).forEach(function%20(el)%20%7B%20if%20(el.children.length%20%3D%3D%3D%200)%20%7B%20var%20txt%20%3D%20el.textContent.trim()%3B%20if%20(%2F%5C%24%5B%5Cd%2C%5D%2B%2F.test(txt)%20%7C%7C%20%2F%5Cd%2B%5C.%5Cd%7B2%7D%2F.test(txt))%20%7B%20holdingsOut%20%2B%3D%20esc(el.tagName)%20%2B%20'%20class%3D%22'%20%2B%20esc(el.className)%20%2B%20'%22%20%7C%20'%20%2B%20esc(txt.substring(0%2C%20120))%20%2B%20'%5Cn'%3B%20%7D%20%7D%20%7D)%3B%20function%20structureOf(el%2C%20depth%2C%20maxDepth%2C%20maxChildren)%20%7B%20if%20(depth%20%3E%20maxDepth)%20return%20''%3B%20var%20indent%20%3D%20'%20'.repeat(depth)%3B%20var%20cls%20%3D%20typeof%20el.className%20%3D%3D%3D%20'string'%20%26%26%20el.className%20%3F%20'.'%20%2B%20el.className.trim().replace(%2F%5Cs%2B%2Fg%2C%20'.')%20%3A%20''%3B%20var%20id%20%3D%20el.id%20%3F%20'%23'%20%2B%20el.id%20%3A%20''%3B%20var%20tag%20%3D%20el.tagName%20%7C%7C%20'%3F'%3B%20var%20out%20%3D%20indent%20%2B%20esc(tag%20%2B%20id%20%2B%20cls)%20%2B%20'%5Cn'%3B%20var%20kids%20%3D%20Array.from(el.children).slice(0%2C%20maxChildren)%3B%20kids.forEach(function%20(c)%20%7B%20out%20%2B%3D%20structureOf(c%2C%20depth%20%2B%201%2C%20maxDepth%2C%20maxChildren)%3B%20%7D)%3B%20return%20out%3B%20%7D%20var%20domOut%20%3D%20structureOf(document.body%2C%200%2C%203%2C%208)%3B%20var%20tablesOut%20%3D%20''%3B%20document.querySelectorAll('table%2Cthead%2Ctbody%2Ctr%2Cth%2Ctd').forEach(function%20(el)%20%7B%20var%20txt%20%3D%20el.textContent.trim()%3B%20if%20(txt)%20tablesOut%20%2B%3D%20esc(el.tagName)%20%2B%20'%20class%3D%22'%20%2B%20esc(el.className)%20%2B%20'%22%20%7C%20'%20%2B%20esc(txt.substring(0%2C%20100))%20%2B%20'%5Cn'%3B%20%7D)%3B%20var%20dataAttrsOut%20%3D%20''%3B%20Array.from(document.querySelectorAll('*')).forEach(function%20(el)%20%7B%20var%20attrs%20%3D%20Array.from(el.attributes%20%7C%7C%20%5B%5D).filter(function%20(a)%20%7B%20return%20a.name.startsWith('data-')%20%7C%7C%20a.name.startsWith('aria-')%3B%20%7D)%3B%20if%20(attrs.length%20%26%26%20el.textContent.trim().length%20%3C%20200%20%26%26%20el.textContent.trim().length%20%3E%200)%20%7B%20var%20attrStr%20%3D%20attrs.map(function%20(a)%20%7B%20return%20a.name%20%2B%20'%3D%22'%20%2B%20a.value%20%2B%20'%22'%3B%20%7D).join('%20')%3B%20dataAttrsOut%20%2B%3D%20esc(el.tagName)%20%2B%20'%20'%20%2B%20esc(attrStr)%20%2B%20'%5Cn%20text%3A%20'%20%2B%20esc(el.textContent.trim().substring(0%2C%2080))%20%2B%20'%5Cn%5Cn'%3B%20%7D%20%7D)%3B%20d.write('%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3Cmeta%20charset%3D%22utf-8%22%3E%3Ctitle%3EMonarch%20DOM%20%E2%80%94%20'%20%2B%20esc(url)%20%2B%20'%3C%2Ftitle%3E'%20%2B%20'%3Cstyle%3E'%20%2B%20'body%7Bfont%3A13px%2F1.5%20monospace%3Bpadding%3A12px%3Bbackground%3A%231a1a1a%3Bcolor%3A%23e0e0e0%7D'%20%2B%20'h1%7Bcolor%3A%237ec8e3%3Bfont-size%3A15px%3Bword-break%3Abreak-all%7D'%20%2B%20'h2%7Bcolor%3A%23f0c040%3Bfont-size%3A13px%3Bmargin%3A0%200%204px%7D'%20%2B%20'.sec%7Bborder%3A1px%20solid%20%23444%3Bmargin%3A10px%200%3Bpadding%3A8px%3Bborder-radius%3A4px%7D'%20%2B%20'pre%7Bbackground%3A%23111%3Bpadding%3A8px%3Boverflow-x%3Aauto%3Bwhite-space%3Apre-wrap%3Bword-break%3Abreak-all%3Bmax-height%3A300px%3Boverflow-y%3Aauto%3Bmargin%3A0%3Bfont-size%3A11px%7D'%20%2B%20'%3C%2Fstyle%3E%3C%2Fhead%3E%3Cbody%3E')%3B%20d.write('%3Ch1%3EMonarch%20DOM%20Analyzer%3Cbr%3E'%20%2B%20esc(url)%20%2B%20'%3C%2Fh1%3E')%3B%20d.write(section('1.%20Headings'%2C%20headingsOut%20%7C%7C%20'(none%20found)'))%3B%20d.write(section('2.%20Elements%20containing%20%22invest%22'%2C%20investOut%20%7C%7C%20'(none%20found)'))%3B%20d.write(section('3.%20Account%20links%20(a%5Bhref*%3D%22account%22%5D)'%2C%20linksOut%20%7C%7C%20'(none%20found)'))%3B%20d.write(section('4.%20Elements%20with%20%24%20amounts'%2C%20holdingsOut%20%7C%7C%20'(none%20found)'))%3B%20d.write(section('5.%20Shallow%20DOM%20structure%20(body%2C%203%20levels%2C%208%20children%20each)'%2C%20domOut))%3B%20d.write(section('6.%20Table%20elements'%2C%20tablesOut%20%7C%7C%20'(none%20found)'))%3B%20d.write(section('7.%20data-*%20%2F%20aria-*%20attributes'%2C%20dataAttrsOut%20%7C%7C%20'(none%20found)'))%3B%20d.write('%3C%2Fbody%3E%3C%2Fhtml%3E')%3B%20d.close()%3B%20%7D)()%3B">Monarch DOM Analyzer</a>
+  </div>
+
+  <ol>
+    <li>Make sure your <strong>bookmarks bar is visible</strong> (Chrome: Ctrl+Shift+B / Cmd+Shift+B)</li>
+    <li><strong>Drag</strong> the blue button above onto your bookmarks bar</li>
+    <li>Go to <code>https://app.monarch.com/accounts</code></li>
+    <li>Click the bookmark — a popup will open with DOM info</li>
+    <li>Do the same on an account detail page</li>
+  </ol>
+
+  <div class="note">
+    <strong>Note:</strong> If dragging doesn't work, right-click the blue button → Copy Link → then manually create a bookmark and paste it as the URL.
+  </div>
+</body>
+</html>
